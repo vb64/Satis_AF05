@@ -1,6 +1,6 @@
 """Satis AF-5 reader."""
 import sys
-from optparse import OptionParser  #  pylint: disable=deprecated-module
+from optparse import OptionParser  # pylint: disable=deprecated-module
 import websocket
 
 from satis import MAX_START, MAX_END, Rbw, Attenuation, read
@@ -86,7 +86,7 @@ PARSER.add_option(
 def main(_argv, options):
     """Entry point."""
     print("Satis read utility v.{}.".format(VERSION))
-    socket = websocket.WebSocket(fire_cont_frame=False)
+    socket = websocket.WebSocket()
     socket.connect("ws://{}:8080".format(options.address))
     data = read(
       socket, options.freq_start, options.freq_end, int(options.rbw), options.video, int(options.atten)
@@ -97,6 +97,7 @@ def main(_argv, options):
         print(data)
 
     print("\nPoints:", len(data))
+    return 0
 
 
 if __name__ == '__main__':  # pragma: no cover

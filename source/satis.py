@@ -1,21 +1,26 @@
-"""Satis AF-5 spectrum analizer stuff.
-
-https://t.me/c/1160771584/109
-"""
+"""Satis AF-5 spectrum analizer stuff."""
 import json
-
-FLD_REQUEST = "requestId"
-FLD_START = "fStart"
-FLD_END = "fEnd"
-FLD_VIDEO = "video"
-FLD_TOTAL_POINTS = "totalFreqPointsInChart"
-FLD_FIRST_INDEX = "frameFirstPointIndex"
-FLD_DATA = "data"
-FLD_ALIVE = "alive"
-FLD_ISALIVE = "spectrumAnaliserIsAlive"
 
 MAX_START = 950000000
 MAX_END = 2150000000
+
+
+class Error(Exception):
+    """Satis IO exception."""
+
+
+class Key:
+    """Keys for satis json IO."""
+
+    Request = "requestId"
+    Start = "fStart"
+    End = "fEnd"
+    Video = "video"
+    Total = "totalFreqPointsInChart"
+    First = "frameFirstPointIndex"
+    Data = "data"
+    Alive = "alive"
+    Is_alive = "spectrumAnaliserIsAlive"
 
 
 class Rbw:
@@ -54,7 +59,7 @@ class Mode:
     Single = 2
 
 
-CMD_ALIVE = {FLD_ALIVE: True}
+CMD_ALIVE = {Key.Alive: True}
 CMD_STOP = {Mode.name: Mode.Stop}
 
 
@@ -66,26 +71,26 @@ def get_string(data):
 def read(socket, freq_start, freq_end, rbw, video, atten):
     """Return list of satis data."""
     socket.send(get_string({
-      FLD_REQUEST: 5,
-      FLD_START: freq_start,
-      FLD_END: freq_end,
+      Key.Request: 5,
+      Key.Start: freq_start,
+      Key.End: freq_end,
       Rbw.name: rbw,
-      FLD_VIDEO: video,
+      Key.Video: video,
       Attenuation.name: atten,
       Mode.name: Mode.Single,
     }))
 
     result = json.loads(socket.recv())
-    total = result[FLD_TOTAL_POINTS]
-    data = result[FLD_DATA]
+    total = result[Key.Total]
+    data = result[Key.Data]
     count = len(data)
 
     while count < total:
         result = json.loads(socket.recv())
-        if result[FLD_FIRST_INDEX] != count:
-            raise Exception("Error: index {} count {}". format(result[FLD_FIRST_INDEX], count))
+        if result[Key.First] != count:
+            raise Error("Error: index {} count {}". format(result[Key.First], count))
 
-        data += result[FLD_DATA]
+        data += result[Key.Data]
         count = len(data)
 
     return data
