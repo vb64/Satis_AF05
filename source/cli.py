@@ -1,7 +1,8 @@
 """Satis AF-5 reader."""
 import sys
+from optparse import OptionParser  #  pylint: disable=deprecated-module
 import websocket
-from optparse import OptionParser
+
 from satis import MAX_START, MAX_END, Rbw, Attenuation, read
 
 RBW = [str(i) for i in [
@@ -82,7 +83,7 @@ PARSER.add_option(
 )
 
 
-def main(argv, options):
+def main(_argv, options):
     """Entry point."""
     print("Satis read utility v.{}.".format(VERSION))
     socket = websocket.WebSocket(fire_cont_frame=False)

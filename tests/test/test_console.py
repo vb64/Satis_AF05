@@ -2,8 +2,6 @@
 
 make test T=test_console.py
 """
-import os
-
 from . import TestBase
 
 
