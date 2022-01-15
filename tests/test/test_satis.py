@@ -2,7 +2,8 @@
 
 make test T=test_satis.py
 """
-from . import TestBase  # MockSocket
+import pytest
+from . import TestBase, MockSocket
 
 
 class TestSatis(TestBase):
@@ -14,3 +15,38 @@ class TestSatis(TestBase):
         from satis import get_string
 
         assert get_string([True]) == '[true]'
+
+    @staticmethod
+    def test_read():
+        """Call read function."""
+        from satis import read, Rbw, Attenuation, Key, Error
+
+        socket = MockSocket()
+        socket.connect('test')
+        socket.answers.append({
+          Key.First: 3,
+          Key.Data: [4, 5],
+        })
+        socket.answers.append({
+          Key.Total: 5,
+          Key.First: 0,
+          Key.Data: [1, 2, 3],
+        })
+
+        assert read(socket, 100, 150, Rbw.Hz6400, 100, Attenuation.Db0)
+
+        socket.answers.append({
+          Key.First: 0,
+          Key.Data: [4, 5],
+        })
+        socket.answers.append({
+          Key.Total: 5,
+          Key.First: 0,
+          Key.Data: [1, 2, 3],
+        })
+
+        with pytest.raises(Error) as exp:
+            read(socket, 100, 150, Rbw.Hz6400, 100, Attenuation.Db0)
+        assert "Error: index " in str(exp)
+
+        socket.close()

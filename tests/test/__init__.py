@@ -1,4 +1,5 @@
 """Root class for testing."""
+import json
 from unittest import TestCase
 
 
@@ -21,7 +22,7 @@ class MockSocket:
 
     def recv(self):
         """Return string from socket."""
-        return self.answers.pop()
+        return json.dumps(self.answers.pop())
 
     def close(self):
         """Close instance."""
