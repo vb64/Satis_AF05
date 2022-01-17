@@ -22,6 +22,13 @@ class Key:
     Alive = "alive"
     Is_alive = "spectrumAnaliserIsAlive"
 
+    # sweep mode keys
+    VideoSweep = "dataFreq"
+    Center = "fCentral"
+    MaxFreq = "maximumFreq"
+    MaxVal = "maximumValue"
+    Time = "timeStamp"
+
 
 class Rbw:
     """Frequency step."""
@@ -57,6 +64,7 @@ class Mode:
     Stop = 0
     Cycle = 1
     Single = 2
+    Sweep = 3
 
 
 CMD_ALIVE = {Key.Alive: True}
@@ -66,6 +74,20 @@ CMD_STOP = {Mode.name: Mode.Stop}
 def get_string(data):
     """Convert data dict to valid json string."""
     return ''.join(json.dumps(data).split())
+
+
+def sweep(socket, freq, rbw, video, atten):
+    """Return data in sweep mode."""
+    socket.send(get_string({
+      Key.Request: 6,
+      Key.Center: freq,
+      Rbw.name: rbw,
+      Key.VideoSweep: video,
+      Attenuation.name: atten,
+      Mode.name: Mode.Sweep,
+    }))
+
+    return json.loads(socket.recv())
 
 
 def read(socket, freq_start, freq_end, rbw, video, atten):

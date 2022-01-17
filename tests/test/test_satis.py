@@ -17,6 +17,19 @@ class TestSatis(TestBase):
         assert get_string([True]) == '[true]'
 
     @staticmethod
+    def test_sweep():
+        """Call sweep function."""
+        from satis import sweep, Rbw, Attenuation, Key
+
+        socket = MockSocket()
+        socket.connect('testsweep')
+        socket.answers.append({
+          Key.Data: [1, 2],
+        })
+
+        assert sweep(socket, 100, Rbw.Hz6400, 100, Attenuation.Db0)
+
+    @staticmethod
     def test_read():
         """Call read function."""
         from satis import read, Rbw, Attenuation, Key, Error

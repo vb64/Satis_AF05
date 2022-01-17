@@ -3,7 +3,43 @@ import sys
 from optparse import OptionParser  # pylint: disable=deprecated-module
 import websocket
 
-from satis import MAX_START, MAX_END, Rbw, Attenuation, read
+from satis import MAX_START, MAX_END, Rbw, Attenuation, sweep, read
+
+
+class Command:
+    """App commands."""
+
+    Read = "read"
+    Sweep = "sweep"
+
+
+def cmd_read(socket, options):
+    """App command read."""
+    data = read(
+      socket, options.freq_start, options.freq_end, int(options.rbw), options.video, int(options.atten)
+    )
+
+    if options.with_data:
+        print(data)
+
+    print("\nPoints:", len(data))
+
+
+def cmd_sweep(socket, options):
+    """App command sweep."""
+    print(sweep(
+      socket,
+      options.freq_center,
+      int(options.rbw),
+      options.video,
+      int(options.atten)
+    ))
+
+
+COMMANDS = {
+  Command.Read: cmd_read,
+  Command.Sweep: cmd_sweep,
+}
 
 RBW = [str(i) for i in [
   Rbw.Hz6400,
@@ -24,7 +60,7 @@ ATTEN = [str(i) for i in [
 ]]
 
 VERSION = '1.0'
-USAGE = "%prog --help"
+USAGE = "%prog " + ' '.join(["[{}]".format(i) for i in COMMANDS])
 
 PARSER = OptionParser(
   usage=USAGE,
@@ -45,6 +81,13 @@ PARSER.add_option(
   help="Dump received data."
 )
 PARSER.add_option(
+  "--freq_center",
+  type="int",
+  dest="freq_center",
+  default=MAX_START,
+  help="Central frequency. Default is {}".format(MAX_START)
+)
+PARSER.add_option(
   "--freq_start",
   type="int",
   dest="freq_start",
@@ -60,7 +103,7 @@ PARSER.add_option(
 )
 PARSER.add_option(
   "--video",
-  type="int",
+  type="float",
   dest="video",
   default=100,
   help="End frequency. Default is 100"
@@ -83,20 +126,22 @@ PARSER.add_option(
 )
 
 
-def main(_argv, options):
+def main(argv, options):
     """Entry point."""
     print("Satis read utility v.{}.".format(VERSION))
+    if len(argv) != 1:
+        PARSER.print_usage()
+        return 1
+
+    cmd = argv[0]
+    if cmd not in COMMANDS:
+        PARSER.print_usage()
+        return 1
+
     socket = websocket.WebSocket()
     socket.connect("ws://{}:8080".format(options.address))
-    data = read(
-      socket, options.freq_start, options.freq_end, int(options.rbw), options.video, int(options.atten)
-    )
+    COMMANDS[cmd](socket, options)
     socket.close()
-
-    if options.with_data:
-        print(data)
-
-    print("\nPoints:", len(data))
     return 0
 
 
