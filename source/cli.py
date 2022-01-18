@@ -15,14 +15,15 @@ class Command:
 
 def cmd_read(socket, options):
     """App command read."""
-    data = read(
-      socket, options.freq_start, options.freq_end, int(options.rbw), options.video, int(options.atten)
+    read(
+      socket,
+      options.freq_start,
+      options.freq_end,
+      int(options.rbw),
+      options.video,
+      int(options.atten),
+      options.with_data
     )
-
-    if options.with_data:
-        print(data)
-
-    print("\nPoints:", len(data))
 
 
 def cmd_sweep(socket, options):

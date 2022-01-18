@@ -27,7 +27,10 @@ cmd_sweep:
 	$(PYTHON) $(SOURCE)/cli.py sweep --addres=192.168.1.100 --video=10 --freq_center=1450000000 --rbw=2 --atten=0
 
 cmd_read:
-	$(PYTHON) $(SOURCE)/cli.py read --addres=192.168.1.100 --freq_start=1400000000 --freq_end=1400330000 --video=50 --rbw=0 --atten=0
+	$(PYTHON) $(SOURCE)/cli.py read --addres=192.168.1.100 --freq_start=1400000000 --freq_end=1400330000 --video=50 --rbw=0 --atten=0 --with_data
+
+cmd_long:
+	$(PYTHON) $(SOURCE)/cli.py read
 
 exe:
 	$(PYINSTALLER) --onefile --name satis.exe $(SOURCE)/cli.py

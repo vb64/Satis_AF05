@@ -90,7 +90,14 @@ def sweep(socket, freq, rbw, video, atten):
     return json.loads(socket.recv())
 
 
-def read(socket, freq_start, freq_end, rbw, video, atten):
+def dump(result, with_data):
+    """Print json data."""
+    if not with_data:
+        result[Key.Data] = len(result[Key.Data])
+    print(result)
+
+
+def read(socket, freq_start, freq_end, rbw, video, atten, with_data):
     """Return list of satis data."""
     socket.send(get_string({
       Key.Request: 5,
@@ -106,13 +113,12 @@ def read(socket, freq_start, freq_end, rbw, video, atten):
     total = result[Key.Total]
     data = result[Key.Data]
     count = len(data)
+    dump(result, with_data)
 
     while count < total:
         result = json.loads(socket.recv())
         if result[Key.First] != count:
             raise Error("Error: index {} count {}". format(result[Key.First], count))
 
-        data += result[Key.Data]
-        count = len(data)
-
-    return data
+        dump(result, with_data)
+        count += len(data)

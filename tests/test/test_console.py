@@ -38,7 +38,7 @@ class TestConsole(TestBase):
         saved_read = cli.read
 
         cli.websocket.WebSocket = MockSocket
-        cli.read = lambda socket, start, end, rbw, vid, att: []
+        cli.read = lambda socket, start, end, rbw, vid, att, data: []
 
         assert cli.main([cli.Command.Read], self.options) == 0
 

@@ -46,7 +46,7 @@ class TestSatis(TestBase):
           Key.Data: [1, 2, 3],
         })
 
-        assert read(socket, 100, 150, Rbw.Hz6400, 100, Attenuation.Db0)
+        assert read(socket, 100, 150, Rbw.Hz6400, 100, Attenuation.Db0, True) is None
 
         socket.answers.append({
           Key.First: 0,
@@ -59,7 +59,7 @@ class TestSatis(TestBase):
         })
 
         with pytest.raises(Error) as exp:
-            read(socket, 100, 150, Rbw.Hz6400, 100, Attenuation.Db0)
+            read(socket, 100, 150, Rbw.Hz6400, 100, Attenuation.Db0, False)
         assert "Error: index " in str(exp)
 
         socket.close()
