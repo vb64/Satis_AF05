@@ -23,11 +23,11 @@ class Key:
     Is_alive = "spectrumAnaliserIsAlive"
 
     # sweep mode keys
-    VideoSweep = "dataFreq"
-    Center = "fCentral"
+    VideoSweep = "dataFreq"  # from 1 to 20
+    Center = "fCentral"  # from MAX_START to MAX_END
     MaxFreq = "maximumFreq"
     MaxVal = "maximumValue"
-    Time = "timeStamp"
+    Time = "timeStamp"  # milliseconds from last request
 
 
 class Rbw:
@@ -40,6 +40,16 @@ class Rbw:
     Hz400 = 2
     Hz100 = 3
     Hz25 = 4
+
+
+class RbwSweep:
+    """Frequency step for sweep mode."""
+
+    name = "rbwsweep"
+
+    Hz6400 = 0
+    Hz1600 = 1
+    Hz400 = 2
 
 
 class Attenuation:

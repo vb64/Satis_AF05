@@ -3,7 +3,7 @@ import sys
 from optparse import OptionParser  # pylint: disable=deprecated-module
 import websocket
 
-from satis import MAX_START, MAX_END, Rbw, Attenuation, sweep, read
+from satis import MAX_START, MAX_END, Rbw, RbwSweep, Attenuation, sweep, read
 
 
 class Command:
@@ -31,7 +31,7 @@ def cmd_sweep(socket, options):
     print(sweep(
       socket,
       options.freq_center,
-      int(options.rbw),
+      int(options.rbwsweep),
       options.video,
       int(options.atten)
     ))
@@ -48,6 +48,12 @@ RBW = [str(i) for i in [
   Rbw.Hz400,
   Rbw.Hz100,
   Rbw.Hz25,
+]]
+
+RBW_SWEEP = [str(i) for i in [
+  RbwSweep.Hz6400,
+  Rbw.Hz1600,
+  Rbw.Hz400,
 ]]
 
 ATTEN = [str(i) for i in [
@@ -115,7 +121,15 @@ PARSER.add_option(
   choices=RBW,
   default=str(Rbw.Hz400),
   dest="rbw",
-  help="Set rbw: %s. Default: %s" % (', '.join(RBW), Rbw.Hz400)
+  help="Set rbw for read dommand: %s. Default: %s" % (', '.join(RBW), Rbw.Hz400)
+)
+PARSER.add_option(
+  "--rbwsweep",
+  type="choice",
+  choices=RBW_SWEEP,
+  default=str(RbwSweep.Hz6400),
+  dest="rbwsweep",
+  help="Set rbw for sweep command: %s. Default: %s" % (', '.join(RBW_SWEEP), RbwSweep.Hz6400)
 )
 PARSER.add_option(
   "--atten",
