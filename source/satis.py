@@ -122,3 +122,5 @@ def read(socket, freq_start, freq_end, rbw, video, atten, with_data):
 
         dump(result, with_data)
         count += len(data)
+
+    return count

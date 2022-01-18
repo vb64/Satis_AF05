@@ -46,7 +46,7 @@ class TestSatis(TestBase):
           Key.Data: [1, 2, 3],
         })
 
-        assert read(socket, 100, 150, Rbw.Hz6400, 100, Attenuation.Db0, True) is None
+        assert read(socket, 100, 150, Rbw.Hz6400, 100, Attenuation.Db0, True) > 0
 
         socket.answers.append({
           Key.First: 0,

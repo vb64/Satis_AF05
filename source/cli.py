@@ -15,7 +15,7 @@ class Command:
 
 def cmd_read(socket, options):
     """App command read."""
-    read(
+    print("Total points:", read(
       socket,
       options.freq_start,
       options.freq_end,
@@ -23,7 +23,7 @@ def cmd_read(socket, options):
       options.video,
       int(options.atten),
       options.with_data
-    )
+    ))
 
 
 def cmd_sweep(socket, options):
