@@ -4,4 +4,4 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/df385d9214b94778b22c630c7d4baefa)](https://www.codacy.com/gh/vb64/Satis_AF05/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=vb64/Satis_AF05&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/df385d9214b94778b22c630c7d4baefa)](https://www.codacy.com/gh/vb64/Satis_AF05/dashboard?utm_source=github.com&utm_medium=referral&utm_content=vb64/Satis_AF05&utm_campaign=Badge_Coverage)
 
-![Satis AF-05](/img/device.jpg)
+[![Satis AF-05](/img/device.jpg)](http://www.satis-tl.ru/products/oborudovanie-sistem-upravleniya-i-kontrolya-setey-sputnikovoy-svyazi/analizator-chastotnyy-af-4/)
