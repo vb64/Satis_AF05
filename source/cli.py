@@ -32,7 +32,7 @@ def cmd_sweep(socket, options):
       socket,
       options.freq_center,
       int(options.rbwsweep),
-      options.video,
+      options.datafreq,
       int(options.atten)
     ))
 
@@ -77,8 +77,8 @@ PARSER = OptionParser(
 PARSER.add_option(
   "--address",
   dest="address",
-  default="192.168.1.100",
-  help="Set satis websocket address. Default 192.168.1.100"
+  default="192.168.0.100",
+  help="Set satis websocket address. Default 192.168.0.100"
 )
 PARSER.add_option(
   "--with_data",
@@ -113,7 +113,14 @@ PARSER.add_option(
   type="float",
   dest="video",
   default=100,
-  help="End frequency. Default is 100"
+  help="Frequency of averaging the result over a period of time in hertz. From 0.1 to 6400. Default is 100"
+)
+PARSER.add_option(
+  "--datafreq",
+  type="float",
+  dest="datafreq",
+  default=10,
+  help="Frequency of averaging the result over a period of time in hertz. From 1 to 20. Default is 10"
 )
 PARSER.add_option(
   "--rbw",
