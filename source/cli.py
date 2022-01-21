@@ -52,8 +52,8 @@ RBW = [str(i) for i in [
 
 RBW_SWEEP = [str(i) for i in [
   RbwSweep.Hz6400,
-  Rbw.Hz1600,
-  Rbw.Hz400,
+  RbwSweep.Hz1600,
+  RbwSweep.Hz400,
 ]]
 
 ATTEN = [str(i) for i in [
@@ -141,7 +141,7 @@ PARSER.add_option(
 PARSER.add_option(
   "--atten",
   type="choice",
-  choices=RBW,
+  choices=ATTEN,
   default=str(Attenuation.Db0),
   dest="atten",
   help="Set attenuation: %s. Default: %s" % (', '.join(ATTEN), Attenuation.Db0)
