@@ -5,6 +5,8 @@ import websocket
 
 from satis import MAX_START, MAX_END, Rbw, RbwSweep, Attenuation, sweep, read
 
+VERSION = '1.1'
+
 
 class Command:
     """App commands."""
@@ -66,11 +68,8 @@ ATTEN = [str(i) for i in [
   Attenuation.Db31,
 ]]
 
-VERSION = '1.0'
-USAGE = "%prog " + ' '.join(["[{}]".format(i) for i in COMMANDS])
-
 PARSER = OptionParser(
-  usage=USAGE,
+  usage="%prog " + ' '.join(["[{}]".format(i) for i in COMMANDS]),
   version="%prog version {}".format(VERSION)
 )
 
