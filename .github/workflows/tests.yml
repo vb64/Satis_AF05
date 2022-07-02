@@ -32,8 +32,8 @@ jobs:
 
     - name: pylint
       run: |
-        python -m pylint --init-hook="sys.path.insert(0, './')" --disable=relative-import source
-        python -m pylint --init-hook="sys.path.insert(0, './')" --disable=relative-import tests/test
+        python -m pylint --init-hook="import sys;sys.path.insert(0, './')" --disable=relative-import source
+        python -m pylint --init-hook="import sys;sys.path.insert(0, './')" --disable=relative-import tests/test
 
     - name: pytest
       # https://docs.codacy.com/codacy-api/api-tokens/#project-api-tokens
