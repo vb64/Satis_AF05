@@ -19,7 +19,7 @@ SOURCE = source
 TESTS = tests
 
 PYTEST = $(PTEST) --cov=$(SOURCE) --cov-report term:skip-covered
-LINT = $(PYTHON) -m pylint  --init-hook="sys.path.insert(0, './')" --load-plugins=pylint.extensions.mccabe --max-complexity=10
+LINT = $(PYTHON) -m pylint
 
 all: run
 
